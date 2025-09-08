@@ -1,0 +1,6 @@
+---
+ufw:
+  copyfiles:
+    ufw: ufw.debian
+    default: default.ufw.debian
+    rules: user.rules.debian

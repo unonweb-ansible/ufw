@@ -1,0 +1,46 @@
+---
+# NOTES
+# -----
+# ufw apparently reloads its config automatically when files are modified
+
+- name: ufw role
+  tags:
+    - ufw
+  block:
+
+  # install
+  - name: Install ufw
+    become: true
+    ansible.builtin.apt:
+      state: present
+      name: ufw
+
+  # /etc/default/ufw
+  - name: Copy ufw config to /etc/default/ufw
+    become: true
+    ansible.builtin.copy:
+      src: "{{ ufw.copyfiles.default }}"
+      dest: /etc/default/ufw
+      owner: root
+      group: root
+      mode: u=rw,g=r,o=r
+
+  # /etc/ufw/ufw.conf 
+  - name: Copy ufw config to /etc/ufw/ufw.conf 
+    become: true
+    ansible.builtin.copy:
+      src: "{{ ufw.copyfiles.ufw }}"
+      dest: /etc/ufw/ufw.conf 
+      owner: root
+      group: root
+      mode: u=rw,g=r,o=r
+
+  # /etc/ufw/user.rules 
+  - name: Copy ufw rules to /etc/ufw/user.rules 
+    become: true
+    ansible.builtin.copy:
+      src: "{{ ufw.copyfiles.rules }}"
+      dest: /etc/ufw/user.rules 
+      owner: root
+      group: root
+      mode: u=rw,g=,o=
