@@ -15,31 +15,61 @@
       state: present
       name: ufw
 
-  # /etc/default/ufw
-  - name: Copy ufw config to /etc/default/ufw
+  # ufw_config_default
+  - when: ufw_config_default != None
+    name: Copy {{ ufw_config_default }} to /etc/default/ufw
     become: true
+    notify: Reload ufw
     ansible.builtin.copy:
-      src: "{{ ufw.copyfiles.default }}"
+      src: "{{ ufw_config_default }}"
       dest: /etc/default/ufw
       owner: root
       group: root
       mode: u=rw,g=r,o=r
 
-  # /etc/ufw/ufw.conf 
-  - name: Copy ufw config to /etc/ufw/ufw.conf 
+  # ufw_config
+  - when: ufw_config != None
+    name: Copy {{ ufw_config }} to /etc/ufw/ufw.conf 
     become: true
+    notify: Reload ufw
     ansible.builtin.copy:
-      src: "{{ ufw.copyfiles.ufw }}"
-      dest: /etc/ufw/ufw.conf 
+      src: "{{ ufw_config }}"
+      dest: /etc/ufw/ufw.conf
       owner: root
       group: root
       mode: u=rw,g=r,o=r
 
-  # /etc/ufw/user.rules 
-  - name: Copy ufw rules to /etc/ufw/user.rules 
+  # ufw_config_rules_user
+  - when: ufw_config_rules_user != None
+    name: Copy {{ ufw_config_rules_user }} to /etc/ufw/user.rules
     become: true
+    notify: Reload ufw
     ansible.builtin.copy:
-      src: "{{ ufw.copyfiles.rules }}"
+      src: "{{ ufw_config_rules_user }}"
+      dest: /etc/ufw/user.rules 
+      owner: root
+      group: root
+      mode: u=rw,g=,o=
+
+  # ufw_config_rules_before
+  - when: ufw_config_rules_before != None
+    name: Copy {{ ufw_config_rules_before }} to /etc/ufw/user.rules
+    become: true
+    notify: Reload ufw
+    ansible.builtin.copy:
+      src: "{{ ufw_config_rules_before }}"
+      dest: /etc/ufw/user.rules 
+      owner: root
+      group: root
+      mode: u=rw,g=,o=
+
+  # ufw_config_rules_after
+  - when: ufw_config_rules_after != None
+    name: Copy {{ ufw_config_rules_after }} to /etc/ufw/user.rules
+    become: true
+    notify: Reload ufw
+    ansible.builtin.copy:
+      src: "{{ ufw_config_rules_after }}"
       dest: /etc/ufw/user.rules 
       owner: root
       group: root

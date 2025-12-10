@@ -1,6 +1,7 @@
 ---
-ufw:
-  copyfiles:
-    ufw: ufw.debian
-    default: default.ufw.debian
-    rules: user.rules.debian
+ufw_config: ufw.debian # /etc/ufw/ufw.conf
+ufw_config_rules_user: user.rules.debian # /etc/ufw/user.rules
+ufw_config_rules_before: # /etc/ufw/before.rules
+ufw_config_rules_after: # /etc/ufw/after.rules
+ufw_config_default: default.ufw.debian # /etc/default/ufw
+ufw_handler_reload: true
